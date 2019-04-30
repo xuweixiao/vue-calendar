@@ -1,0 +1,34 @@
+body,html{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+ul,li{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.cell-col-8{
+    width: 33.3%
+}
+.cel-col-6{
+    width:25% !important;
+}
+.float-left{
+    float: left;
+}
+.clearfix{
+    &::after{
+        content: '';
+        clear: both;
+        width: 0;
+        height: 0;
+        display: block;
+    }
+}
+
+.organization-popup{
+    animation: moveAnimation .5s linear 0s alternate;
+}
