@@ -28,7 +28,19 @@ ul,li{
         display: block;
     }
 }
-
 .organization-popup{
     animation: moveAnimation .5s linear 0s alternate;
+}
+.home{
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+.body{
+    height: 1000px;
+    border: 1px solid cornflowerblue;
+    padding: 10px;
+    box-sizing: border-box;
 }
