@@ -281,7 +281,7 @@ export default {
     PreMonth: function (date, isChosedDay = true) {
       let pageDate = timeUtil.dateFormat(date)
       let arr = pageDate.split('/')
-      if (arr[0] == 2018 && arr[1] <= 1) {
+      if (Number(arr[0]) === 2018 && arr[1] <= 1) {
         return
       } else if (arr[0] < 2018) {
         return
@@ -297,7 +297,7 @@ export default {
     NextMonth: function (date, isChosedDay = true) {
       let pageDate = timeUtil.dateFormat(date)
       let arr = pageDate.split('/')
-      if (arr[0] == this.curentDate.year && arr[1] >= this.curentDate.month) {
+      if (Number(arr[0]) === this.curentDate.year && arr[1] >= this.curentDate.month) {
         return
       }
       this.myDate = timeUtil.getOtherMonth(this.myDate, 'nextMonth')

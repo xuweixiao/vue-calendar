@@ -24,7 +24,7 @@ const formatDateTime = function (value = '', format = 'yyyy/MM/dd hh:mm:ss') {
   }
   for (let k in o) {
     if (new RegExp('(' + k + ')').test(formats)) {
-      formats = formats.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (('00' + o[k]).substr((o[k].toString()).length)))
+      formats = formats.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (('00' + o[k]).substr((o[k].toString()).length)))
     }
   }
   return formats
@@ -120,13 +120,6 @@ const getLastWeek = function (num) {
   ret.startDate = ret.startDate - formula
   ret.endDate = ret.endDate - formula
   return ret
-}
-/**
- * 更新时间格式化
- * 格式化格式：刚刚，3分钟前，1小时前
- */
-const getUpdateTime = (updateTime) => {
-  return timeago().format(updateTime, 'zh_CN')
 }
 /**
  * 获取当前年，当前月，当前天信息
