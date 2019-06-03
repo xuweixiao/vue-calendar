@@ -11,5 +11,8 @@ export default new Vuex.Store({
     'SET_TIME_FILTER' (state, value) {
       state.timeFilterShow = value
     }
+  },
+  actions: {
+
   }
 })

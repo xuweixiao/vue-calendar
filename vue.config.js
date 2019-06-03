@@ -8,6 +8,7 @@ const debugUrl = process.env.NODE_ENV === 'production' ? 'https://prod-baidu.com
 
 module.exports = {
   pages: {
+    // web端
     index: {
       // entry for the page
       entry: 'src/main.js',
@@ -15,6 +16,15 @@ module.exports = {
       template: 'public/index.html',
       // output as dist/index.html
       filename: 'index.html'
+    },
+    // app端
+    app: {
+      // entry for the page
+      entry: 'src/appModules/main.js',
+      // the source template
+      template: 'public/app.html',
+      // output as dist/index.html
+      filename: 'app.html'
     }
   },
   lintOnSave: true,
