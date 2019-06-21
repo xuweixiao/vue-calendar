@@ -3,40 +3,18 @@
         <chart
             :chartId="'line'"
             :height="'300px'"
+            :fullOption="barFullOption"
             :option="barOption"
-            :title="'折线图'"
-            :fullScreenStatus="false"
+            :title="title"
+            :fullScreenStatus="fullScreenStatus"
             @fullScreenOpenOrClose="fullScreenOpenOrClose"/>
-        <!-- 全屏 -->
-        <section class="full-srceen-box" v-show="fullScreenShow">
-            <div class="chart-rorate"
-                :style="{width:fullHeight,marginTop:topSpace + 'px',marginLeft:leftSpace+'px'}">
-                <p class="chart-title">
-                    {{ title }}
-                    <img
-                        @click="fullScreenOpenOrClose(false)"
-                        class="screen-full-img"
-                        :src="require('@/assets/img/icon_close.png')">
-                </p>
-            </div>
-            <chart
-                class="full-screen-echarts"
-                :chartId="'fullScreenLine'"
-                :height="fullHeight"
-                :width="fullWidth"
-                :option="barFullOption"
-                :title="title"
-                :fullScreenStatus="true"
-                @fullScreenOpenOrClose="fullScreenOpenOrClose"/>
-        </section>
     </div>
 </template>
 
 <script>
-import chart from '@/components/chart.vue'
+import chart from '@/components/chart'
 import deepClone from '@/common/functions/deepClone'
 import { chartBaseOption } from '@/common/functions/baseData'
-import { replaceStr } from '@/common/functions/baseFuntion'
 
 export default {
   components: { chart },
@@ -47,21 +25,7 @@ export default {
       barFullOption: deepClone(chartBaseOption),
       xData: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
       yData: [11, 23, 23, 345, 0, 23, 45, 120, 12, 34, 56, 34],
-      fullScreenShow: false
-    }
-  },
-  computed: {
-    fullWidth () {
-      return window.innerWidth + 'px'
-    },
-    fullHeight () {
-      return window.innerHeight + 'px'
-    },
-    topSpace () {
-      return Math.round(Number(replaceStr(this.fullHeight, 'px', '')) / 2) - Math.round(57 / 2)
-    },
-    leftSpace () {
-      return Number(replaceStr(this.fullWidth, 'px', '')) - Math.round(Number(replaceStr(this.fullHeight, 'px', '')) / 2) - Math.round(57 / 2)
+      fullScreenStatus: false
     }
   },
   mounted () {
@@ -76,7 +40,7 @@ export default {
       this.barOption.grid.left = 50
       this.barOption.grid.top = 10
       this.barOption.grid.bottom = 100
-      this.barOption.grid.right = 30
+      this.barOption.grid.right = 20
       this.barOption.series.push({
         name: 'money',
         type: 'bar',
@@ -132,15 +96,11 @@ export default {
       })
     },
     fullScreenOpenOrClose (status) {
-      this.fullScreenShow = status
-      if (this.fullScreenShow) {
+      this.fullScreenStatus = status
+      if (status) {
         this.drawFullScreenChart(this.xData, this.yData)
       }
     }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/scss/echarts.scss';
-</style>

@@ -1,18 +1,36 @@
 <template>
-  <div :style="{display:'inline-block',width:'100%'}">
+  <div class="echart-box">
+    <!-- 正常图表 -->
     <p class="chart-title" v-if="!fullScreenStatus">
       {{ title }}
       <img
-        @click="fullScreenOpenOrClose"
+        @click="fullScreenOpenOrClose(true)"
         class="screen-full-img"
-        :src="fullScreenStatus ?require('@/assets/img/icon_close.png'): require('@/assets/img/icon_screen_full.png')">
+        :src="require('@/assets/img/icon_screen_full.png')">
     </p>
     <div :id="chartId" :style="{height: height,width:width}"/>
+    <!-- 全屏 -->
+    <section class="full-srceen-box" v-show="fullScreenShow">
+        <div class="chart-rorate"
+            :style="{width:fullHeight,marginTop:topSpace + 'px',marginLeft:leftSpace+'px'}">
+            <p class="chart-title">
+                {{ title }}
+                <img
+                    @click="fullScreenOpenOrClose(false)"
+                    class="screen-full-img"
+                    :src="require('@/assets/img/icon_close.png')">
+            </p>
+        </div>
+        <div :id="`${chartId}full`"
+          class="full-screen-echarts"
+          :style="{height:fullHeight,width:fullWidth}"/>
+    </section>
   </div>
 </template>
 
 <script>
 // 引入图
+import { replaceStr } from '@/common/functions/baseFuntion'
 require('echarts/lib/chart/bar')
 require('echarts/lib/chart/pie')
 require('echarts/lib/component/graphic')
@@ -25,6 +43,7 @@ require('echarts/lib/component/markPoint')
 require('echarts/lib/component/markLine')
 
 export default {
+  name: 'chart',
   props: {
     title: {
       type: String,
@@ -50,8 +69,12 @@ export default {
         return '200px'
       }
     },
-    option: {
+    fullOption: {
       type: Object
+    },
+    option: {
+      type: Object,
+      require: true
     },
     loading: {
       type: Boolean,
@@ -75,7 +98,23 @@ export default {
   data () {
     return {
       bar: null,
-      empty: false
+      fullBar: null,
+      empty: false,
+      fullScreenShow: false
+    }
+  },
+  computed: {
+    fullWidth () {
+      return window.innerWidth + 'px'
+    },
+    fullHeight () {
+      return window.innerHeight + 'px'
+    },
+    topSpace () {
+      return Math.round(Number(replaceStr(this.fullHeight, 'px', '')) / 2) - Math.round(57 / 2)
+    },
+    leftSpace () {
+      return Number(replaceStr(this.fullWidth, 'px', '')) - Math.round(Number(replaceStr(this.fullHeight, 'px', '')) / 2) - Math.round(57 / 2)
     }
   },
   watch: {
@@ -86,6 +125,17 @@ export default {
           this.bar.clear()
         } else {
           this.drawBar()
+        }
+      },
+      deep: true
+    },
+    fullOption: {
+      handler () {
+        this.fullOption.series.length === 0 ? this.empty = true : (this.fullOption.series[0].data.length === 0 ? this.empty = true : this.empty = false)
+        if (this.empty) {
+          this.fullOption.clear()
+        } else {
+          this.drawFullBar()
         }
       },
       deep: true
@@ -103,6 +153,7 @@ export default {
   },
   mounted () {
     this.bar = this.$echarts.init(document.getElementById(this.chartId))
+    this.fullBar = this.$echarts.init(document.getElementById(this.chartId + 'full'))
     if (this.enabledClick) {
       this.bar.getZr().on('click', (params) => {
         const pointInPixel = [params.offsetX, params.offsetY]
@@ -137,19 +188,25 @@ export default {
     if (this.bar !== null && this.bar !== '' && !(typeof this.bar === 'undefined')) {
       this.bar.clear()
     }
+    if (this.fullBar !== null && this.fullBar !== '' && !(typeof this.fullBar === 'undefined')) {
+      this.fullBar.clear()
+    }
   },
   methods: {
-    clearEchart () {
-      this.bar.clear()
-    },
     drawBar () {
-      console.log('change')
       if (this.bar !== null && this.bar !== '' && !(typeof this.bar === 'undefined')) {
         this.bar.resize()
         this.bar.setOption(this.option)
       }
     },
+    drawFullBar () {
+      if (this.fullBar !== null && this.fullBar !== '' && !(typeof this.fullBar === 'undefined')) {
+        this.fullBar.resize()
+        this.fullBar.setOption(this.fullOption)
+      }
+    },
     fullScreenOpenOrClose () {
+      this.fullScreenShow = !this.fullScreenShow
       if (this.fullScreenStatus) {
         this.$emit('fullScreenOpenOrClose', false)
       } else {
