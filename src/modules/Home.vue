@@ -23,17 +23,19 @@
                     </template>
                     <template #main>
                         <ul class="table">
-                        <li
-                            class="table-item"
-                            v-for="(item,index) of peopleArr"
-                            :key="index +'peo'">
-                            <span>{{item.name}}</span>
-                            <span>{{item.age}}</span>
-                        </li>
+                          <li
+                              class="table-item"
+                              v-for="(item,index) of peopleArr"
+                              :key="index +'peo'">
+                              <span>{{item.name}}</span>
+                              <span>{{item.age}}</span>
+                          </li>
                         </ul>
                     </template>
                 </my-table>
             </section>
+            <!-- 3. 横屏 -->
+              <div>dd</div>
         </div>
     </div>
 </template>
@@ -43,9 +45,10 @@
 import searchCondition from '@/components/searchCondition.vue'
 import pageProgress from '@/components/pageProgress.vue'
 import myTable from '@/components/table.vue'
+// import deepClone from '@/common/functions/deepClone.js'
 
 export default {
-  name: 'home',
+  name: 'Home',
   components: {
     myTable,
     searchCondition,
@@ -53,13 +56,17 @@ export default {
   },
   data () {
     return {
+      obj: {
+        name: 'xudanfeng'
+      },
       timeFilterData: {},
       peopleArr: [
         { name: '徐开心', age: 13 },
         { name: '大韩', age: 6 },
         { name: '民国', age: 6 },
         { name: '万岁', age: 6 }
-      ]
+      ],
+      pa: ''
     }
   },
   computed: {
@@ -67,6 +74,7 @@ export default {
       return window.innerHeight
     }
   },
+  mounted () {},
   methods: {
     timeSure (obj) {
       this.timeFilterData = obj
