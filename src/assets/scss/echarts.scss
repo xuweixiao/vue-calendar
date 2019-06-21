@@ -1,0 +1,40 @@
+.full-srceen-box{
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    position: fixed;
+    z-index: 500;
+    box-sizing: border-box;
+    background-color: #fff;
+
+    .chart-rorate{
+        transform: rotate(90deg);
+        z-index: 502;
+        position: relative;
+
+        .chart-title{
+            padding-right: 20px;
+            padding-left: 35px;
+        }
+    }
+    .full-screen-echarts{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top:0;
+        z-index: 501;
+    }
+}
+.chart-title{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 30px;
+    padding-left: 20px;
+}
+.screen-full-img{
+    width: 25px;
+    height: 25px;
+}

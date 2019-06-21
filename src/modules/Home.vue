@@ -35,7 +35,7 @@
                 </my-table>
             </section>
             <!-- 3. 横屏 -->
-              <div>dd</div>
+            <router-link to="line">echarts图表横屏（柱状图）</router-link>
         </div>
     </div>
 </template>
@@ -45,7 +45,6 @@
 import searchCondition from '@/components/searchCondition.vue'
 import pageProgress from '@/components/pageProgress.vue'
 import myTable from '@/components/table.vue'
-// import deepClone from '@/common/functions/deepClone.js'
 
 export default {
   name: 'Home',
